@@ -10,7 +10,7 @@ public class BowlingGameTest {
   public void theScoreOfAGameWithoutAnyBowlsIsZero() {
     int expectedScore = 0;
     BowlingGame bowlingGame = new BowlingGame();
-    int actualScore = bowlingGame.calculateScore();
+    int actualScore = bowlingGame.score();
     assertEquals(expectedScore, actualScore);
   }
 
@@ -30,16 +30,36 @@ public class BowlingGameTest {
     for(int i=0; i<10; i++) {
       bowlingGame.addOpenFrame(0, 0);
     }
-    assertEquals(0, bowlingGame.calculateScore());
+    assertEquals(0, bowlingGame.score());
   }
 
-//  @Test
-//  public void aGameOfAllGutterBallsShouldScoreZero() {
-//    BowlingGame bowlingGame = new BowlingGame();
-//    for(int i=0; i<10; i++) {
-//      bowlingGame.addOpenFrame(0, 0);
-//    }
-//    assertEquals(0, bowlingGame.calculateScore());
-//  }
+  @Test
+  public void aGameScoringOnePerFrameShouldScoreTen() {
+    BowlingGame bowlingGame = new BowlingGame();
+    for(int frameNumber=1; frameNumber<=10; frameNumber++) {
+      bowlingGame.addOpenFrame(1, 0);
+    }
+    assertEquals(10, bowlingGame.score());
+  }
+
+  @Test
+  public void aGameScoringANineOneSparePerFrameShouldScore190() {
+    BowlingGame bowlingGame = new BowlingGame();
+    for(int frameNumber=1; frameNumber<=9; frameNumber++) {
+      bowlingGame.addSpare(9);
+    }
+    bowlingGame.addFinalFrame(9,1,9);
+    assertEquals(190, bowlingGame.score());
+  }
+
+  @Test
+  public void aGameOfAllStrikesShouldScore300() {
+    BowlingGame bowlingGame = new BowlingGame();
+    for(int frameNumber=1; frameNumber<=9; frameNumber++) {
+      bowlingGame.addStrike();
+    }
+    bowlingGame.addFinalFrame(10,10,10);
+    assertEquals(300, bowlingGame.score());
+  }
 
 }
